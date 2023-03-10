@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api.apps.ApiConfig', #This object was created for us in /api/apps.py
-    'rest_framework', # ??
+    'api.apps.ApiConfig', # This object was created for us in /api/apps.py
+    'rest_framework', 
     'corsheaders',
 ]
 
@@ -132,3 +133,13 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+
+db_from_env = dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi2',
+conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+if 'TESTING' in os.environ:
+    db_from_env = dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi2', conn_max_age=500)
+else:
+    db_from_env = dj_database_url.config(default='postgres://manuloseta:nkMJ2UGRr6bL@ep-green-wind-448415.eu-central-1.aws.neon.tech/neondb', conn_max_age=500)
+DATABASES['default'].update(db_from_env)

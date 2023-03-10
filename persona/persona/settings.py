@@ -22,12 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-erj+@ynz84aovof96@&*l9zp5w5(i$_^kn*1l68$1($^=jmek0'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+if 'TESTING' in os.environ:
+    SECRET_KEY = 'django-insecure-erj+@ynz84aovof96@&*l9zp5w5(i$_^kn*1l68$1($^=jmek0'
+    DEBUG = True
+    ALLOWED_HOSTS = []
+else:
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    DEBUG = False
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 
 
 # Application definition
@@ -111,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
@@ -123,7 +125,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'api/static/'
+STATIC_ROOT = 'api/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -144,3 +147,6 @@ if 'TESTING' in os.environ:
 else:
     db_from_env = dj_database_url.config(default='postgres://manuloseta:nkMJ2UGRr6bL@ep-green-wind-448415.eu-central-1.aws.neon.tech/neondb', conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+
+

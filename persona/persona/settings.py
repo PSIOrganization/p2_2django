@@ -30,6 +30,9 @@ else:
     SECRET_KEY = os.getenv('SECRET_KEY')
     DEBUG = False
     ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
+# Django server URL in Render: https://p2-django-elena-manu.onrender.com
+# To access the database add to the URL /api/v1/personas/
+# WARNING: EXPORT VARIABLE TESTING SO THE PROJECT CAN BE RUN LOCALLY
 
 
 # Application definition
